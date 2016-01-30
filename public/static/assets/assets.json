@@ -1,0 +1,52 @@
+{
+  "core_sprites": [
+    {
+      "type": "spritesheet",
+      "key": "main_char",
+      "url": "assets/character/walking.png",
+      "frameWidth": 30,
+      "frameHeight": 30,
+      "frameMax": 12,
+      "margin": 0,
+      "spacing": 0,
+      "overwrite": "false"
+    },
+    {
+      "type": "image",
+      "key": "tiles",
+      "url": "assets/maps/dev_tiles.png",
+      "overwrite": "false"
+    },
+    {
+      "type": "tilemap",
+      "key": "dev_map",
+      "url": "assets/maps/dev_map.json",
+      "data": null,
+      "format": "TILED_JSON"
+    }
+  ],
+  "tools": [
+    {
+      "type": "spritesheet",
+      "key": "hoe_north_east",
+      "url": "assets/character/hoe_north_east.png",
+      "frameWidth": 35,
+      "frameHeight": 40,
+      "frameMax": 8,
+      "margin": 0,
+      "spacing": 0,
+      "overwrite": "false"
+    },
+    {
+      "type": "spritesheet",
+      "key": "hoe_south",
+      "url": "assets/character/hoe_south.png",
+      "frameWidth": 35,
+      "frameHeight": 40,
+      "frameMax": 8,
+      "margin": 0,
+      "spacing": 0,
+      "overwrite": "false"
+    }
+  ]
+}
