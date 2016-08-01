@@ -1,7 +1,9 @@
 import Tool from "../tool/Tool";
-import Hoe from "../tool/Hoe";
 
-class Player extends Phaser.Sprite {
+/**
+ * A base class for controllable characters to extend.
+ */
+class PlayerBase extends Phaser.Sprite {
   constructor(game, x, y, sprite_sheet, frame, collision_layer) {
     super(game, x, y, sprite_sheet, frame);
     this.game = game;
@@ -9,26 +11,15 @@ class Player extends Phaser.Sprite {
     this.addAnimations();
     this.game.physics.enable(this, Phaser.Physics.ARCADE);
     this.body.collideWorldBounds = true;
-    this.body.setSize(13, 12, 1, 6);
-    this.game.camera.follow(this);
     this.game.add.existing(this);
 
     // Controls.
-    this.use_tool_key = this.game.input.keyboard.addKey(Phaser.Keyboard.Z);
+    this.use_tool_key = this.game.input.keyboard.addKey(Phaser.Keyboard.X);
     this.use_tool_key.onDown.add(this.useTool, this);
-
-    // Define instance vars.
-    this._collision_layer = collision_layer;
-    this._movement_speed = 60;
-    this._moving = false;
-    this._equipped_tool = null;
-
     this.bindKeyboardListeners();
 
     // Default to facing south.
     this.setDirection("south");
-
-    this.equipped_tool = new Hoe(1, 10);
   }
 
   /**
@@ -69,11 +60,11 @@ class Player extends Phaser.Sprite {
    */
   bindKeyboardListeners() {
     var directionKeys = {
-      rightKeyPressed: this.game.input.keyboard.addKey(Phaser.Keyboard.RIGHT),
-      leftKeyPressed: this.game.input.keyboard.addKey(Phaser.Keyboard.LEFT),
-      upKeyPressed: this.game.input.keyboard.addKey(Phaser.Keyboard.UP),
-      downKeyPressed: this.game.input.keyboard.addKey(Phaser.Keyboard.DOWN),
-    },
+        rightKeyPressed: this.game.input.keyboard.addKey(Phaser.Keyboard.RIGHT),
+        leftKeyPressed: this.game.input.keyboard.addKey(Phaser.Keyboard.LEFT),
+        upKeyPressed: this.game.input.keyboard.addKey(Phaser.Keyboard.UP),
+        downKeyPressed: this.game.input.keyboard.addKey(Phaser.Keyboard.DOWN),
+      },
       direction;
 
     // Bind main arrow keys.
@@ -165,11 +156,14 @@ class Player extends Phaser.Sprite {
     }
   }
 
+  /**
+   * Add animations for the player.
+   */
   addAnimations() {
-    this.animations.add("walk_down", [0,1,2,3], 8, true);
-    this.animations.add("walk_up", [4,5,6,7], 8, true);
-    this.animations.add("walk_horizontal", [8,9,10,11], 8, true);
-    this.animations.add("hoe_north", [0,1,2,3], 7, true);
+    // this.animations.add("walk_down", [0,1,2,3], 8, true);
+    // this.animations.add("walk_up", [4,5,6,7], 8, true);
+    // this.animations.add("walk_horizontal", [8,9,10,11], 8, true);
+    // this.animations.add("hoe_north", [0,1,2,3], 7, true);
   }
 
   /**
@@ -200,4 +194,4 @@ class Player extends Phaser.Sprite {
   }
 }
 
-export default Player;
+export default PlayerBase;

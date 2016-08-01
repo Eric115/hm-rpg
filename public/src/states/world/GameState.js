@@ -1,4 +1,4 @@
-import Player from "../../objects/player/Player";
+import MainPlayer from "../../objects/player/MainPlayer";
 
 class GameState extends Phaser.State {
 
@@ -11,7 +11,7 @@ class GameState extends Phaser.State {
     walkable_layer.resizeWorld();
     collision_layer = map.createLayer("Collision");
 
-    player = new Player(this.game, 20, 20, "main_char", 0, collision_layer);
+    player = new MainPlayer(this.game, 30, 50, "main_char", 0, collision_layer);
     collision_layer.resizeWorld();
     above_layer = map.createLayer("Above");
 
