@@ -163,7 +163,6 @@ class PlayerBase extends Phaser.Sprite {
     // this.animations.add("walk_down", [0,1,2,3], 8, true);
     // this.animations.add("walk_up", [4,5,6,7], 8, true);
     // this.animations.add("walk_horizontal", [8,9,10,11], 8, true);
-    // this.animations.add("hoe_north", [0,1,2,3], 7, true);
   }
 
   /**

@@ -3,12 +3,11 @@ import Hoe from "../tool/Hoe";
 
 class MainPlayer extends PlayerBase {
   constructor(game, x, y, sprite_sheet, frame, collision_layer) {
+    super(game, x, y, sprite_sheet, frame);
+
     // Set sprite size.
     this.body.setSize(13, 12, 1, 6);
     this.game.camera.follow(this);
-
-    // Call parent constructor.1
-    super(game, x, y, sprite_sheet, frame);
 
     // Define instance vars.
     this._collision_layer = collision_layer;
