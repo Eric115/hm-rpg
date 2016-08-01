@@ -1,4 +1,5 @@
 import Tool from "../tool/Tool";
+import Hoe from "../tool/Hoe";
 
 class Player extends Phaser.Sprite {
   constructor(game, x, y, sprite_sheet, frame, collision_layer) {
@@ -19,10 +20,15 @@ class Player extends Phaser.Sprite {
     // Define instance vars.
     this._collision_layer = collision_layer;
     this._movement_speed = 60;
+    this._moving = false;
     this._equipped_tool = null;
+
+    this.bindKeyboardListeners();
 
     // Default to facing south.
     this.setDirection("south");
+
+    this.equipped_tool = new Hoe(1, 10);
   }
 
   /**
@@ -56,6 +62,74 @@ class Player extends Phaser.Sprite {
     if (tool === null || (tool instanceof Tool)) {
       this._equipped_tool = tool;
     }
+  }
+
+  /**
+   * Bind keyboard press listeners.
+   */
+  bindKeyboardListeners() {
+    var rightKeyPressed = this.game.input.keyboard.addKey(Phaser.Keyboard.RIGHT),
+      leftKeyPressed = this.game.input.keyboard.addKey(Phaser.Keyboard.LEFT),
+      upKeyPressed = this.game.input.keyboard.addKey(Phaser.Keyboard.UP),
+      downKeyPressed = this.game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
+
+    rightKeyPressed.onDown.add(function() {
+      if (!this._moving) {
+        this.body.velocity.x = this._movement_speed;
+        this._moving = true;
+        this.setDirection("east", true);
+      }
+    }, this);
+
+    rightKeyPressed.onUp.add(function() {
+      this.body.velocity.x = 0;
+      this._moving = false;
+      this.animations.stop(null, true);
+    }, this);
+
+    leftKeyPressed.onDown.add(function() {
+      if (!this._moving) {
+        this.body.velocity.x = 0 - this._movement_speed;
+        this._moving = true;
+        this.setDirection("west", true);
+      }
+    }, this);
+
+    leftKeyPressed.onUp.add(function() {
+      this.body.velocity.x = 0;
+      this._moving = false;
+      this.animations.stop(null, true);
+    }, this);
+
+    upKeyPressed.onDown.add(function() {
+      if (!this._moving) {
+        this.body.velocity.y = 0 - this._movement_speed;
+        this._moving = true;
+        this.setDirection("north", true);
+      }
+    }, this);
+
+    upKeyPressed.onUp.add(function() {
+      this.body.velocity.y = 0;
+      this._moving = false;
+      this.animations.stop(null, true);
+    }, this);
+
+
+    downKeyPressed.onDown.add(function() {
+      if (!this._moving) {
+        this.body.velocity.y = this._movement_speed;
+        this._moving = true;
+        this.setDirection("south", true);
+      }
+    }, this);
+
+    downKeyPressed.onUp.add(function() {
+      this.body.velocity.y = 0;
+      this._moving = false;
+      this.animations.stop(null, true);
+    }, this);
+
   }
 
   /**
@@ -111,6 +185,7 @@ class Player extends Phaser.Sprite {
     this.animations.add("walk_down", [0,1,2,3], 8, true);
     this.animations.add("walk_up", [4,5,6,7], 8, true);
     this.animations.add("walk_horizontal", [8,9,10,11], 8, true);
+    this.animations.add("hoe_north", [0,1,2,3], 7, true);
   }
 
   /**
@@ -137,30 +212,7 @@ class Player extends Phaser.Sprite {
   }
 
   update() {
-    var loop;
     this.game.physics.arcade.collide(this, this._collision_layer);
-    this.body.velocity.x = 0;
-    this.body.velocity.y = 0;
-
-    if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
-      this.body.velocity.x = 0 - this._movement_speed;
-      this.setDirection("west", true);
-
-    } else if (this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
-      this.body.velocity.x = this._movement_speed;
-      this.setDirection("east", true);
-
-    } else if (this.game.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
-      this.body.velocity.y = this._movement_speed;
-      this.setDirection("south", true);
-
-    } else if (this.game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
-      this.body.velocity.y = 0 - this._movement_speed;
-      this.setDirection("north", true);
-
-    } else {
-      this.animations.stop(null, true);
-    }
   }
 }
 

@@ -1,3 +1,4 @@
+import Tool from "./Tool";
 
 class Hoe extends Tool {
   constructor(level, exp) {
@@ -15,3 +16,5 @@ class Hoe extends Tool {
   }
 
 }
+
+export default Hoe;
