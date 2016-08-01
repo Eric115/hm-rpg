@@ -68,68 +68,52 @@ class Player extends Phaser.Sprite {
    * Bind keyboard press listeners.
    */
   bindKeyboardListeners() {
-    var rightKeyPressed = this.game.input.keyboard.addKey(Phaser.Keyboard.RIGHT),
-      leftKeyPressed = this.game.input.keyboard.addKey(Phaser.Keyboard.LEFT),
-      upKeyPressed = this.game.input.keyboard.addKey(Phaser.Keyboard.UP),
-      downKeyPressed = this.game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
+    var directionKeys = {
+      rightKeyPressed: this.game.input.keyboard.addKey(Phaser.Keyboard.RIGHT),
+      leftKeyPressed: this.game.input.keyboard.addKey(Phaser.Keyboard.LEFT),
+      upKeyPressed: this.game.input.keyboard.addKey(Phaser.Keyboard.UP),
+      downKeyPressed: this.game.input.keyboard.addKey(Phaser.Keyboard.DOWN),
+    },
+      direction;
 
-    rightKeyPressed.onDown.add(function() {
-      if (!this._moving) {
-        this.body.velocity.x = this._movement_speed;
-        this._moving = true;
-        this.setDirection("east", true);
-      }
-    }, this);
+    // Bind main arrow keys.
+    for (direction in directionKeys) {
+      directionKeys[direction].onDown.add(this.movementKeyEvent, this);
+      directionKeys[direction].onUp.add(this.movementKeyEvent, this);
+    }
 
-    rightKeyPressed.onUp.add(function() {
+  }
+
+  /**
+   * Respond to a main arrow key being pressed or released.
+   */
+  movementKeyEvent() {
+    if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
+      this.body.velocity.y = 0;
+      this.body.velocity.x = 0 - this._movement_speed;
+      this.setDirection("west", true);
+
+    } else if (this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
+      this.body.velocity.y = 0;
+      this.body.velocity.x = this._movement_speed;
+      this.setDirection("east", true);
+
+    } else if (this.game.input.keyboard.isDown(Phaser.Keyboard.DOWN)) {
+      this.body.velocity.x = 0;
+      this.body.velocity.y = this._movement_speed;
+      this.setDirection("south", true);
+
+    } else if (this.game.input.keyboard.isDown(Phaser.Keyboard.UP)) {
+      this.body.velocity.x = 0;
+      this.body.velocity.y = 0 - this._movement_speed;
+      this.setDirection("north", true);
+
+    } else {
+      this.body.velocity.y = 0;
       this.body.velocity.x = 0;
       this._moving = false;
       this.animations.stop(null, true);
-    }, this);
-
-    leftKeyPressed.onDown.add(function() {
-      if (!this._moving) {
-        this.body.velocity.x = 0 - this._movement_speed;
-        this._moving = true;
-        this.setDirection("west", true);
-      }
-    }, this);
-
-    leftKeyPressed.onUp.add(function() {
-      this.body.velocity.x = 0;
-      this._moving = false;
-      this.animations.stop(null, true);
-    }, this);
-
-    upKeyPressed.onDown.add(function() {
-      if (!this._moving) {
-        this.body.velocity.y = 0 - this._movement_speed;
-        this._moving = true;
-        this.setDirection("north", true);
-      }
-    }, this);
-
-    upKeyPressed.onUp.add(function() {
-      this.body.velocity.y = 0;
-      this._moving = false;
-      this.animations.stop(null, true);
-    }, this);
-
-
-    downKeyPressed.onDown.add(function() {
-      if (!this._moving) {
-        this.body.velocity.y = this._movement_speed;
-        this._moving = true;
-        this.setDirection("south", true);
-      }
-    }, this);
-
-    downKeyPressed.onUp.add(function() {
-      this.body.velocity.y = 0;
-      this._moving = false;
-      this.animations.stop(null, true);
-    }, this);
-
+    }
   }
 
   /**
